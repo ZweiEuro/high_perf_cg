@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://fvbbvkl5ed7t"]
+[gd_scene load_steps=12 format=3 uid="uid://fvbbvkl5ed7t"]
 
 [ext_resource type="Script" path="res://general/player.gd" id="1_aa8h2"]
 [ext_resource type="Shader" path="res://main_scene.gdshader" id="1_yd1km"]
@@ -21,12 +21,19 @@ material = SubResource("ShaderMaterial_tlnsj")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kclql"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_3h7ss"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nmq5q"]
+
 [node name="Main Scene" type="Node3D"]
 
 [node name="Floor" type="RigidBody3D" parent="."]
 axis_lock_linear_x = true
 axis_lock_linear_y = true
 axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
 physics_material_override = SubResource("PhysicsMaterial_n3bpb")
 
 [node name="FloorColl" type="CollisionShape3D" parent="Floor"]
@@ -41,7 +48,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 script = ExtResource("1_aa8h2")
 
 [node name="PlayerCam" type="Camera3D" parent="Player"]
-transform = Transform3D(0.996162, -0.0673895, 0.0558634, 0.0197089, 0.794488, 0.60696, -0.0852855, -0.603529, 0.792767, 0.0851917, 1.78675, 2.36275)
+transform = Transform3D(0.996162, -0.0673894, 0.0558634, 0.0197089, 0.794488, 0.60696, -0.0852855, -0.603529, 0.792767, 2, 3, 2)
 fov = 61.875
 script = ExtResource("2_gocgc")
 
@@ -55,3 +62,14 @@ shape = SubResource("BoxShape3D_kclql")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.989124, -0.147084, -4.44089e-16, 0.140312, 0.943583, 0.29994, -0.0441165, -0.296678, 0.953958, 0, 0, 0)
 shadow_enabled = true
+
+[node name="Block" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.52478, 0)
+mass = 0.001
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block"]
+shape = SubResource("BoxShape3D_3h7ss")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Block/CollisionShape3D"]
+mesh = SubResource("BoxMesh_nmq5q")
+skeleton = NodePath("")

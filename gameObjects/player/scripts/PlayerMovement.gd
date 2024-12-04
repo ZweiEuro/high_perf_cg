@@ -9,9 +9,10 @@ var turn_speed = 30
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var dash_charges = 3
-var dash_velocity = 50
-var dash_duration = 0.5    # how long the dash should be eased over in seconds
-var timestamp_last_dash = 0.0 # the last time dash was pushed 
+var dash_velocity: float = 50
+var dash_duration: float = 0.5    # how long the dash should be eased over in seconds
+var dash_cooldown: float = 5.0;
+var timestamp_last_dash: float = 0.0 # the last time dash was pushed 
 
 
 var parent
@@ -35,6 +36,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _process(delta):
 	# set parent position to equal CharacterBody position every frame
 	parent.position = position
+	pass
 
 # from https://easings.net/#easeOutExpo
 func easeOutExpo(x: float)-> float:
@@ -73,8 +75,9 @@ func _physics_process(delta):
 		var now_ticks_in_s = Time.get_ticks_msec() / 1000.0;
 		
 		if Input.is_action_just_pressed("Dash"):
-			timestamp_last_dash = now_ticks_in_s
-			$"DustParticleSpawner".emitting = true
+			if timestamp_last_dash == 0 || (now_ticks_in_s - timestamp_last_dash)  > dash_cooldown:				
+				timestamp_last_dash = now_ticks_in_s
+				$"DustParticleSpawner".emitting = true
 		
 		var time_since_dash_start = now_ticks_in_s - timestamp_last_dash
 		

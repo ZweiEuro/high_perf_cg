@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxs7cwpwtxhba"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n3bpb"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_cc6qa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_blfw4"]
+size = Vector3(1, 0, 1)
+
+[node name="Flat" type="StaticBody3D"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_n3bpb")
+
+[node name="FloorMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_cc6qa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_blfw4")

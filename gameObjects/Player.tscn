@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dutcdtdc0ygky"]
+[gd_scene load_steps=10 format=3 uid="uid://dutcdtdc0ygky"]
 
 [ext_resource type="Script" path="res://gameObjects/scripts/PlayerMovement.gd" id="2_w2um5"]
 [ext_resource type="Shader" path="res://gameObjects/player.gdshader" id="2_xp7a0"]
+[ext_resource type="Shader" path="res://gameObjects/dustParticles.gdshader" id="3_hk4tg"]
 [ext_resource type="Script" path="res://gameObjects/scripts/CameraMovement.gd" id="3_ub28p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3rsb5"]
@@ -12,6 +13,15 @@ shader = ExtResource("2_xp7a0")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_djl6f"]
 material = SubResource("ShaderMaterial_7lx21")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_400ti"]
+render_priority = 0
+shader = ExtResource("3_hk4tg")
+
+[sub_resource type="SphereMesh" id="SphereMesh_1b3m4"]
+material = SubResource("ShaderMaterial_400ti")
+radius = 0.1
+height = 0.2
 
 [node name="Player" type="Node3D"]
 
@@ -27,6 +37,25 @@ shape = SubResource("CapsuleShape3D_3rsb5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_djl6f")
 
+[node name="DustParticleSpawner" type="CPUParticles3D" parent="PlayerBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.167882, 0.540837)
+emitting = false
+amount = 15
+lifetime = 0.32
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 1.0
+mesh = SubResource("SphereMesh_1b3m4")
+direction = Vector3(0, 0, 1)
+spread = 30.0
+flatness = 0.1
+gravity = Vector3(0, 20, 10)
+initial_velocity_min = 0.1
+initial_velocity_max = 10.0
+damping_min = 5.0
+damping_max = 8.0
+color = Color(0.74902, 0.372549, 0, 0.792157)
+
 [node name="CamOrigin" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 script = ExtResource("3_ub28p")
@@ -36,7 +65,7 @@ script = ExtResource("3_ub28p")
 [node name="v" type="Node3D" parent="CamOrigin/h"]
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin/h/v"]
-spring_length = 4.0
+spring_length = 6.0
 margin = 1.0
 
 [node name="Camera" type="Camera3D" parent="CamOrigin/h/v/SpringArm3D"]

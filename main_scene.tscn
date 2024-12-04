@@ -1,8 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://fvbbvkl5ed7t"]
+[gd_scene load_steps=7 format=3 uid="uid://fvbbvkl5ed7t"]
 
-[ext_resource type="Script" path="res://general/player.gd" id="1_aa8h2"]
-[ext_resource type="Shader" path="res://main_scene.gdshader" id="1_yd1km"]
-[ext_resource type="Script" path="res://general/player_cam.gd" id="2_gocgc"]
+[ext_resource type="PackedScene" uid="uid://dutcdtdc0ygky" path="res://gameObjects/Player.tscn" id="1_65sxl"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n3bpb"]
 
@@ -11,15 +9,6 @@ size = Vector3(1000, 1, 10)
 
 [sub_resource type="BoxMesh" id="BoxMesh_qkvim"]
 size = Vector3(1000, 1, 10)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tlnsj"]
-render_priority = 0
-shader = ExtResource("1_yd1km")
-
-[sub_resource type="BoxMesh" id="BoxMesh_sw5rs"]
-material = SubResource("ShaderMaterial_tlnsj")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_kclql"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3h7ss"]
 
@@ -43,28 +32,12 @@ shape = SubResource("BoxShape3D_6yj83")
 mesh = SubResource("BoxMesh_qkvim")
 skeleton = NodePath("../..")
 
-[node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-script = ExtResource("1_aa8h2")
-
-[node name="PlayerCam" type="Camera3D" parent="Player"]
-transform = Transform3D(0.996162, -0.0673894, 0.0558634, 0.0197089, 0.794488, 0.60696, -0.0852855, -0.603529, 0.792767, 2, 3, 2)
-fov = 61.875
-script = ExtResource("2_gocgc")
-
-[node name="PlayerMesh" type="MeshInstance3D" parent="Player"]
-mesh = SubResource("BoxMesh_sw5rs")
-skeleton = NodePath("../..")
-
-[node name="PlayerColl" type="CollisionShape3D" parent="Player"]
-shape = SubResource("BoxShape3D_kclql")
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.989124, -0.147084, -4.44089e-16, 0.140312, 0.943583, 0.29994, -0.0441165, -0.296678, 0.953958, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Block" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.52478, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.33534, 4.52478, 0)
 mass = 0.001
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block"]
@@ -73,3 +46,5 @@ shape = SubResource("BoxShape3D_3h7ss")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Block/CollisionShape3D"]
 mesh = SubResource("BoxMesh_nmq5q")
 skeleton = NodePath("")
+
+[node name="Player" parent="." instance=ExtResource("1_65sxl")]

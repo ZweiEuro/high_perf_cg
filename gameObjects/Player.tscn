@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://dutcdtdc0ygky"]
+
+[ext_resource type="Script" path="res://gameObjects/scripts/PlayerMovement.gd" id="2_w2um5"]
+[ext_resource type="Shader" path="res://gameObjects/player.gdshader" id="2_xp7a0"]
+[ext_resource type="Script" path="res://gameObjects/scripts/CameraMovement.gd" id="3_ub28p"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3rsb5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7lx21"]
+render_priority = 0
+shader = ExtResource("2_xp7a0")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_djl6f"]
+material = SubResource("ShaderMaterial_7lx21")
+
+[node name="Player" type="Node3D"]
+
+[node name="PlayerBody" type="CharacterBody3D" parent="."]
+top_level = true
+script = ExtResource("2_w2um5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_3rsb5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_djl6f")
+
+[node name="CamOrigin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+script = ExtResource("3_ub28p")
+
+[node name="h" type="Node3D" parent="CamOrigin"]
+
+[node name="v" type="Node3D" parent="CamOrigin/h"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin/h/v"]
+spring_length = 4.0
+margin = 1.0
+
+[node name="Camera" type="Camera3D" parent="CamOrigin/h/v/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.013)
+fov = 80.0

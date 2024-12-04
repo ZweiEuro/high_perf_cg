@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dutcdtdc0ygky"]
+[gd_scene load_steps=11 format=3 uid="uid://dutcdtdc0ygky"]
 
 [ext_resource type="Script" path="res://gameObjects/player/scripts/PlayerMovement.gd" id="2_w2um5"]
 [ext_resource type="Shader" path="res://gameObjects/player/player.gdshader" id="2_xp7a0"]
 [ext_resource type="Shader" path="res://gameObjects/player/dustParticles.gdshader" id="3_hk4tg"]
 [ext_resource type="Script" path="res://gameObjects/player/scripts/CameraMovement.gd" id="3_ub28p"]
+[ext_resource type="PackedScene" uid="uid://w4utvnmipwxv" path="res://gameObjects/objects/Box.tscn" id="4_0gr36"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3rsb5"]
 
@@ -28,6 +29,11 @@ height = 0.2
 [node name="PlayerBody" type="CharacterBody3D" parent="."]
 top_level = true
 script = ExtResource("2_w2um5")
+
+[node name="Box" parent="PlayerBody" instance=ExtResource("4_0gr36")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20839, -0.56734)
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

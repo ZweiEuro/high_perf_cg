@@ -3,7 +3,7 @@ extends Node
 @export var spawningInterval: float = 0.05; # period in seconds
 @export var spawningIntervalRandomNoise: float = 0.5;
 
-@export var spawnRadius: float = 5.0;
+@export var spawnRadius: float = 10;
 
 var indicator = preload("res://gameObjects/lightning/indicator.tscn");
 
@@ -36,11 +36,14 @@ func get_random_pos_around_center(center: Vector3, radius: float) -> Vector3:
 	var dir = Vector3(randf_range(-0.5, 0.5), 0, randf_range(-0.5, 0.5)).normalized();
 		
 	# make it a minimum radius away from the player
-	return center + dir * randf_range(0.5, radius) * randf();
+	#        v originating from the players position
+	#        |                                    v random in that direction inside the radius
+	#        |                                    |             v min distance away
+	return center + (dir * randf_range(0, radius) * randf()) + dir * 5;
 	
 func _on_timer_timeout() -> void:
 	
-	var newChild: Node3D = indicator.duplicate().instantiate();
+	var newChild: Node3D = indicator.duplicate(true).instantiate();
 	var newPos =  get_random_pos_around_center(player.position, spawnRadius);
 	newChild.position = newPos;
 	add_child(newChild);

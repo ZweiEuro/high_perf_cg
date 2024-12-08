@@ -18,7 +18,6 @@ var indicatorInnerSize: float = 0.0;
 
 func _ready() -> void:
 	self.scale = Vector3(actualScale, actualScale, actualScale);
-	
 	innerIndicator.top_radius = 1;
 	innerIndicator.bottom_radius = 1;
 
@@ -39,6 +38,7 @@ albedo_color = Color(1, 0, 0, 0.541176)
 disable_receive_shadows = true
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_yurot"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_lsk4n")
 top_radius = 1.0
 bottom_radius = 1.0
@@ -50,6 +50,7 @@ albedo_color = Color(1, 0, 0, 1)
 disable_receive_shadows = true
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_e1imq"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_6v3ml")
 top_radius = 0.0
 bottom_radius = 0.0

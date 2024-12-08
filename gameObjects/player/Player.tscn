@@ -1,5 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://dutcdtdc0ygky"]
+[gd_scene load_steps=12 format=3 uid="uid://dutcdtdc0ygky"]
 
+[ext_resource type="Script" path="res://gameObjects/player/player.gd" id="1_8atvp"]
 [ext_resource type="Script" path="res://gameObjects/player/scripts/PlayerMovement.gd" id="2_w2um5"]
 [ext_resource type="Shader" path="res://gameObjects/player/player.gdshader" id="2_xp7a0"]
 [ext_resource type="Shader" path="res://gameObjects/player/dustParticles.gdshader" id="3_hk4tg"]
@@ -25,6 +26,7 @@ radius = 0.1
 height = 0.2
 
 [node name="Player" type="Node3D"]
+script = ExtResource("1_8atvp")
 
 [node name="PlayerBody" type="CharacterBody3D" parent="."]
 top_level = true

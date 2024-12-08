@@ -14,6 +14,7 @@ var dash_duration: float = 0.5    # how long the dash should be eased over in se
 var dash_cooldown: float = 5.0;
 var timestamp_last_dash: float = 0.0 # the last time dash was pushed 
 
+var last_direction: Vector3 = Vector3(0.5, 0, 0.5).normalized();
 
 var parent
 
@@ -53,7 +54,7 @@ func _physics_process(delta):
 	
 	# use input_dir movement vector to know which direction the player is facing, depending on the camera rotation 
 	# put .normalized() at the end of this line if you don't want the player to be able to slow walk using joystick
-	var direction = (cam_h.transform.basis * Vector3(input_dir.x, 0, input_dir.y))
+	var direction: Vector3 = (cam_h.transform.basis * Vector3(input_dir.x, 0, input_dir.y))
 	
 	var velocity_total = velocity; # change the current velocity
 	
@@ -66,6 +67,9 @@ func _physics_process(delta):
 		velocity_total.y += jump_velocity# direction of 'up'  is irrelevant here (it would also be zero  
 
 	if direction:
+		# save direction for later
+		last_direction = direction;
+		
 		# change player model rotation
 		rotation.y = lerp_angle(rotation.y, atan2(-direction.x, -direction.z), turn_speed * delta)
 		
@@ -99,6 +103,11 @@ func _physics_process(delta):
 	
 	velocity = velocity_total
 	move_and_slide()
+
+func getDirection() -> Vector3:
+	return last_direction;
+
+
 
 func capture_mouse():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

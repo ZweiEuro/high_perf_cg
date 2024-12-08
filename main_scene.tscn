@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://fvbbvkl5ed7t"]
+[gd_scene load_steps=5 format=3 uid="uid://fvbbvkl5ed7t"]
 
 [ext_resource type="PackedScene" uid="uid://dutcdtdc0ygky" path="res://gameObjects/player/Player.tscn" id="1_65sxl"]
 [ext_resource type="PackedScene" uid="uid://w4utvnmipwxv" path="res://gameObjects/objects/Box.tscn" id="2_8jwoa"]
 [ext_resource type="PackedScene" uid="uid://dxs7cwpwtxhba" path="res://gameObjects/objects/Flat.tscn" id="3_xs5ph"]
+[ext_resource type="Script" path="res://gameObjects/lightning/indicator_spawner.gd" id="4_51kfs"]
 
 [node name="Main Scene" type="Node3D"]
 
@@ -13,7 +14,10 @@ shadow_enabled = true
 [node name="Player" parent="." instance=ExtResource("1_65sxl")]
 
 [node name="Box" parent="." instance=ExtResource("2_8jwoa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79543, -2.62273)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.48751, 1.79543, -5.11981)
 
 [node name="Flat" parent="." instance=ExtResource("3_xs5ph")]
-transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.00597, -0.01577, 0.0261436)
+
+[node name="IndicatorSpawner" type="Node3D" parent="."]
+script = ExtResource("4_51kfs")

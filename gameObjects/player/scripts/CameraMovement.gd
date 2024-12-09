@@ -23,8 +23,8 @@ func _physics_process(delta):
 	# make sure player can't rotate the camera too far up or down
 	pitch_pivot.rotation.x = clamp(
 		pitch_pivot.rotation.x,
-		deg_to_rad(-90),
-		deg_to_rad(45)
+		deg_to_rad(-35),
+		deg_to_rad(30)
 	)
 	twist_input = 0.0
 	pitch_input = 0.0

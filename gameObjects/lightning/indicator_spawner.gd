@@ -1,9 +1,10 @@
 extends Node
 
 @export var spawningInterval: float = 0.05; # period in seconds
-@export var spawningIntervalRandomNoise: float = 0.5;
+@export var spawningIntervalRandomNoise: float = 0.0;
 
 @export var spawnRadius: float = 10;
+@export var minSpawnRadius: float = 3;
 
 var indicator = preload("res://gameObjects/lightning/indicator.tscn");
 
@@ -36,7 +37,7 @@ func get_random_pos_around_center(center: Vector3, radius: float) -> Vector3:
 	#        v originating from the players position
 	#        |                                    v random in that direction inside the radius
 	#        |                                    |             v min distance away
-	var pos = center + (dir * randf_range(0, radius) * randf()) + dir * 5;
+	var pos = center + (dir * randf_range(0, radius) * randf()) + dir * minSpawnRadius;
 	
 	pos.y = 0; # it must stick to the ground
 	

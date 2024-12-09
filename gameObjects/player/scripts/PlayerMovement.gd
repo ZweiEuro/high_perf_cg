@@ -11,7 +11,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var dash_charges = 3
 var dash_velocity: float = 50
 var dash_duration: float = 0.5    # how long the dash should be eased over in seconds
-var dash_cooldown: float = 5.0;
+var dash_cooldown: float = 1.0;
 var timestamp_last_dash: float = 0.0 # the last time dash was pushed 
 
 var last_direction: Vector3 = Vector3(0.5, 0, 0.5).normalized();

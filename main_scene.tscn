@@ -1,23 +1,44 @@
-[gd_scene load_steps=5 format=3 uid="uid://fvbbvkl5ed7t"]
+[gd_scene load_steps=7 format=3 uid="uid://fvbbvkl5ed7t"]
 
 [ext_resource type="PackedScene" uid="uid://dutcdtdc0ygky" path="res://gameObjects/player/Player.tscn" id="1_65sxl"]
 [ext_resource type="PackedScene" uid="uid://w4utvnmipwxv" path="res://gameObjects/objects/Box.tscn" id="2_8jwoa"]
 [ext_resource type="PackedScene" uid="uid://dxs7cwpwtxhba" path="res://gameObjects/objects/Flat.tscn" id="3_xs5ph"]
 [ext_resource type="Script" path="res://gameObjects/lightning/indicator_spawner.gd" id="4_51kfs"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_lt0sx"]
+size = Vector3(10, 10, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v5crj"]
+size = Vector3(10, 10, 10)
+
 [node name="Main Scene" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.989124, -0.147084, 9.00233e-08, 0.140312, 0.943583, 0.29994, -0.0441165, -0.296678, 0.953958, 0, 0, 0)
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 16.1515, 3.86242, 16.4154)
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_65sxl")]
 
 [node name="Box" parent="." instance=ExtResource("2_8jwoa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.48751, 1.79543, -5.11981)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.488, 0.5, -5.12)
+
+[node name="Box" parent="Box" instance=ExtResource("2_8jwoa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
+
+[node name="Box" parent="Box/Box" instance=ExtResource("2_8jwoa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 
 [node name="Flat" parent="." instance=ExtResource("3_xs5ph")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.00597, -0.01577, 0.0261436)
 
 [node name="IndicatorSpawner" type="Node3D" parent="."]
 script = ExtResource("4_51kfs")
+
+[node name="BigBox" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.09, -3.42728, 13.943)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BigBox"]
+mesh = SubResource("BoxMesh_lt0sx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BigBox"]
+shape = SubResource("BoxShape3D_v5crj")

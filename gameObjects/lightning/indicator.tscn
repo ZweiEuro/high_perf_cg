@@ -4,12 +4,15 @@
 script/source = "extends Node3D
 
 @export var triggerDuration_s: float = 1.0; # duration in seconds for it to grow
-@export var singleFire: bool = false;
+@export var emitCount: int = 1;
+@onready var currentEmitCount: int = emitCount;
 
 @export var actualScale: float = 1.0;
 
 @onready var innerIndicator: CylinderMesh = $IndicatorInner.mesh
 @onready var outerIndicator: CylinderMesh = $IndicatorOuter.mesh
+@onready var counterLabel: Label3D = $CounterLabel
+@onready var countDownLabel: Label3D = $CountDownLabel
 
 
 var startTime: float = Time.get_ticks_msec() / 1000.0; # time since start in seconds 
@@ -20,13 +23,23 @@ func _ready() -> void:
 	self.scale = Vector3(actualScale, actualScale, actualScale);
 	innerIndicator.top_radius = 1;
 	innerIndicator.bottom_radius = 1;
+	counterLabel.text = str(emitCount);
+	countDownLabel.text = str(triggerDuration_s).pad_decimals(2);
 
 func _process(_delta: float) -> void:
 	var now = Time.get_ticks_msec() / 1000.0;
-	if now - startTime > triggerDuration_s:
-		startTime = now;
+	var diff = now - startTime;
+	if diff > triggerDuration_s:
+		currentEmitCount -= 1;
+		if currentEmitCount > 0:
+			startTime = now;
+			counterLabel.text = str(currentEmitCount);
+		else:
+			queue_free();
 	
-	var newSize = lerpf(0.0, 1.0, (( now - startTime) / triggerDuration_s))
+	var newSize = lerpf(0.0, 1.0, (diff / triggerDuration_s))
+	
+	countDownLabel.text = str(triggerDuration_s - diff).pad_decimals(2);
 	
 	innerIndicator.bottom_radius = newSize;
 	innerIndicator.top_radius = newSize;
@@ -65,3 +78,13 @@ mesh = SubResource("CylinderMesh_yurot")
 [node name="IndicatorInner" type="MeshInstance3D" parent="."]
 mesh = SubResource("CylinderMesh_e1imq")
 skeleton = NodePath("../IndicatorOuter")
+
+[node name="CounterLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 1)
+text = "1"
+font_size = 55
+
+[node name="CountDownLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0)
+text = "0"
+font_size = 55

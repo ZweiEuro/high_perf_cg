@@ -24,9 +24,6 @@ func _ready() -> void:
 func restartSpawner() -> void:
 	var nextTimeoutTime = spawningInterval + randf_range(-spawningIntervalRandomNoise, spawningIntervalRandomNoise);
 	timer.start(nextTimeoutTime)
-	
-	print(nextTimeoutTime)
-
 
 func get_random_pos_around_center(center: Vector3, radius: float) -> Vector3:
 	# get a planar Vec3 in a random direction
@@ -39,13 +36,28 @@ func get_random_pos_around_center(center: Vector3, radius: float) -> Vector3:
 	#        v originating from the players position
 	#        |                                    v random in that direction inside the radius
 	#        |                                    |             v min distance away
-	return center + (dir * randf_range(0, radius) * randf()) + dir * 5;
+	var pos = center + (dir * randf_range(0, radius) * randf()) + dir * 5;
 	
+	pos.y = 0; # it must stick to the ground
+	
+	return pos;
+	
+	
+@export var bigLightningPercentage = 0.1;
+
 func _on_timer_timeout() -> void:
 	
 	var newChild: Node3D = indicator.duplicate(true).instantiate();
 	var newPos =  get_random_pos_around_center(player.position, spawnRadius);
 	newChild.position = newPos;
+	
+	if randf() < bigLightningPercentage:
+		newChild.emitCount = 1;
+		newChild.triggerDuration_s = 5;
+		newChild.actualScale = 5;
+	else:
+		newChild.emitCount = randi_range(1, 4);
+	
 	add_child(newChild);
 	restartSpawner();
 

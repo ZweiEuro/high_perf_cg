@@ -45,6 +45,8 @@ float fbm(vec2 uv, int octaves) {
     return value;
 }
 
+varying vec3 position;
+
 void vertex(){
 	if(billboard){
 		    mat4 modified_model_view = VIEW_MATRIX * mat4(
@@ -53,11 +55,11 @@ void vertex(){
         INV_VIEW_MATRIX[2],
         MODEL_MATRIX[3]
     );
-    MODELVIEW_MATRIX = modified_model_view; 
+    MODELVIEW_MATRIX = modified_model_view;
 	}
-	
-	COLOR.x = INSTANCE_CUSTOM.y;
 
+	COLOR.x = INSTANCE_CUSTOM.y;
+	position = VERTEX;
 }
 
 void fragment() {
@@ -71,21 +73,28 @@ void fragment() {
 		) * uv;
 
     uv += 2.0 * fbm(uv + TIME * speed, octave_count) - 1.0;
-    
+
     float dist = abs(uv.x) / thickness;
     vec3 color = effect_color * mix(0.0, 0.05, hash12(vec2(TIME))) / dist;
     ALBEDO = color;
-	
+
 	ALPHA = mix(0.0, 0.05, hash12(vec2(TIME))) / dist;
-	
-	
+
+
 	ALPHA = pow(ALPHA, 4.0)  ;
-	
-	if(COLOR.x > 0.5){
+
+
+	float lifetime = COLOR.x; // 0 - 1
+	float leftOverLifetime = 1.0 - lifetime * 2.0; // 0 - 1
+
+	float y_normalized_position = (position.y + 1.0) / 2.0;
+
+	if(y_normalized_position < leftOverLifetime){
 		discard;
 	}
-	
-	
-	
+
+
+
+
 
 }

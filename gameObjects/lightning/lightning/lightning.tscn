@@ -70,7 +70,7 @@ shader_parameter/amp_start = 0.5
 shader_parameter/amp_coeff = 0.5
 shader_parameter/freq_coeff = 2.0
 shader_parameter/speed = 0.5
-shader_parameter/direction = Vector2(1, 0)
+shader_parameter/direction = Vector2(-1, 0)
 shader_parameter/thickness = 1.0
 shader_parameter/billboard = false
 

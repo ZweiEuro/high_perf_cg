@@ -47,10 +47,7 @@ mesh = SubResource("CapsuleMesh_djl6f")
 [node name="DustParticleSpawner" type="CPUParticles3D" parent="PlayerBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.167882, 0.540837)
 emitting = false
-amount = 15
-lifetime = 0.3
 one_shot = true
-explosiveness = 1.0
 lifetime_randomness = 1.0
 mesh = SubResource("SphereMesh_1b3m4")
 direction = Vector3(0, 0, 1)

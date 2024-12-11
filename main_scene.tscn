@@ -36,7 +36,7 @@ transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.00597, -0.01577, 0.02614
 script = ExtResource("4_51kfs")
 
 [node name="Lightning" parent="." instance=ExtResource("5_atnxh")]
-transform = Transform3D(5.73, 0, 0, 0, 5.73, 0, 0, 0, 5.73, 0, 0, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29962, -12)
 
 [node name="BigBox" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.09, -3.42728, 13.943)

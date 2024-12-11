@@ -2,19 +2,12 @@
 
 [ext_resource type="Shader" path="res://gameObjects/lightning/lightning/lightning.gdshader" id="1_4neoo"]
 [ext_resource type="Shader" path="res://gameObjects/lightning/lightning/lightning_particle_shader.gdshader" id="2_o6lkx"]
+[ext_resource type="Script" path="res://gameObjects/lightning/lightning/gpu_particles_3d.gd" id="3_hqmv2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f0kxl"]
 render_priority = 0
 shader = ExtResource("1_4neoo")
 shader_parameter/effect_color = Color(0.2, 0.3, 0.8, 1)
-shader_parameter/octave_count = 2
-shader_parameter/amp_start = 1.0
-shader_parameter/amp_coeff = 0.5
-shader_parameter/freq_coeff = 2.0
-shader_parameter/speed = 0.5
-shader_parameter/direction = Vector2(1, 0)
-shader_parameter/thickness = 1.0
-shader_parameter/billboard = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_ilfdx"]
 material = SubResource("ShaderMaterial_f0kxl")
@@ -61,22 +54,8 @@ shader_parameter/velocity_pivot = Vector3(0, 0, 0)
 shader_parameter/color_value = Color(1, 1, 1, 1)
 shader_parameter/gravity = Vector3(0, 0, 0)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bivgu"]
-render_priority = 0
-shader = ExtResource("1_4neoo")
-shader_parameter/effect_color = Color(0.2, 0.3, 0.8, 1)
-shader_parameter/octave_count = 10
-shader_parameter/amp_start = 0.5
-shader_parameter/amp_coeff = 0.5
-shader_parameter/freq_coeff = 2.0
-shader_parameter/speed = 0.5
-shader_parameter/direction = Vector2(-1, 0)
-shader_parameter/thickness = 1.0
-shader_parameter/billboard = false
-
-[sub_resource type="QuadMesh" id="QuadMesh_6ws7b"]
-material = SubResource("ShaderMaterial_bivgu")
-size = Vector2(1, 2)
+[sub_resource type="ArrayMesh" id="ArrayMesh_v6i0j"]
+blend_shape_mode = 0
 
 [node name="Lightning" type="Node3D"]
 
@@ -88,6 +67,7 @@ mesh = SubResource("QuadMesh_ilfdx")
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.155016, 2.44707, 0.0603362)
 amount = 1
-lifetime = 0.25
+lifetime = 0.9
 process_material = SubResource("ShaderMaterial_hjj20")
-draw_pass_1 = SubResource("QuadMesh_6ws7b")
+draw_pass_1 = SubResource("ArrayMesh_v6i0j")
+script = ExtResource("3_hqmv2")

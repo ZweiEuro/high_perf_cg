@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvuo37cr1wwmp"]
+
+[ext_resource type="Script" path="res://alt_lightning/multi_mesh_instance_3d.gd" id="1_7cfiw"]
+[ext_resource type="Shader" path="res://alt_lightning/alt-lightning.gdshader" id="1_8xj2g"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3rylv"]
+render_priority = 0
+shader = ExtResource("1_8xj2g")
+shader_parameter/color_blue = Color(0.2, 0.3, 1, 1)
+shader_parameter/color_white = Color(1, 1, 1, 1)
+shader_parameter/flicker_speed = 5.0
+shader_parameter/blue_bias = 2.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2yair"]
+material = SubResource("ShaderMaterial_3rylv")
+
+[node name="alt-lightning" type="MeshInstance3D"]
+mesh = SubResource("PlaneMesh_2yair")
+script = ExtResource("1_7cfiw")
+start_point = Vector3(0, 5, 0)
+end_point = Vector3(0, -1, 1)
+n_segments = 10
+jaggedness = 0.3
+branch_chance = 0.5
+max_branch_depth = 3

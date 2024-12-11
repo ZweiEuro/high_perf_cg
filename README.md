@@ -5,7 +5,7 @@ Make a controller that spawns lightning indicators around the player
 		Note: would be cool to leave be hind scorch marks
 	
 	
-The lightning indicators:
+The lightning indicators:+
 		the indicators are spawned by the game master / controller in a random area 
 		Around the current players position.
 		
@@ -14,3 +14,8 @@ The lightning node:
 			https://www.youtube.com/watch?v=C5g3Zdvitg4
 	Spawns a collider at the end that actually makes the collision check with the player and we show a counter
 	
+----------------------
+TODO
+- fix shitty lightning shapes
+- combine indicators with lightning spawn-despawn
+- sound effect/scorch mark / particle etc to make it... integrate? better to the scene

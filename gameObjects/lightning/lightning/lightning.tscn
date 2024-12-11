@@ -54,20 +54,26 @@ shader_parameter/velocity_pivot = Vector3(0, 0, 0)
 shader_parameter/color_value = Color(1, 1, 1, 1)
 shader_parameter/gravity = Vector3(0, 0, 0)
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_v6i0j"]
-blend_shape_mode = 0
+[sub_resource type="ArrayMesh" id="ArrayMesh_xjwch"]
+_surfaces = [{
+"aabb": AABB(0, 0, 0, 1, 1, 1),
+"format": 34359738369,
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63)
+}]
 
 [node name="Lightning" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00576115, 2.5, -0.00127721)
-visible = false
 mesh = SubResource("QuadMesh_ilfdx")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.155016, 2.44707, 0.0603362)
+visible = false
 amount = 1
 lifetime = 0.9
 process_material = SubResource("ShaderMaterial_hjj20")
-draw_pass_1 = SubResource("ArrayMesh_v6i0j")
+draw_pass_1 = SubResource("ArrayMesh_xjwch")
 script = ExtResource("3_hqmv2")

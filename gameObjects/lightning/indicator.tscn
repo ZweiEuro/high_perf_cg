@@ -14,10 +14,16 @@ script/source = "extends Node3D
 @onready var counterLabel: Label3D = $CounterLabel
 @onready var countDownLabel: Label3D = $CountDownLabel
 
+@onready var lighting_prefab = preload(\"res://alt_lightning/alt_lightning.tscn\");
+
 
 var startTime: float = Time.get_ticks_msec() / 1000.0; # time since start in seconds 
 
 var indicatorInnerSize: float = 0.0;
+
+@onready var self_delete_timer: Timer = Timer.new();
+
+@onready var i_am_dead = false;
 
 func _ready() -> void:
 	self.scale = Vector3(actualScale, actualScale, actualScale);
@@ -25,18 +31,41 @@ func _ready() -> void:
 	innerIndicator.bottom_radius = 1;
 	counterLabel.text = str(emitCount);
 	countDownLabel.text = str(triggerDuration_s).pad_decimals(2);
+	
+	self_delete_timer.autostart = false;
+	self_delete_timer.one_shot = true;
+	self_delete_timer.timeout.connect(delete_self);
+
+	add_child(self_delete_timer)
+		
+	
+func delete_self() -> void:
+	queue_free();
+	
+
+func emitLightning() -> void:
+	var newChild: Node3D = lighting_prefab.duplicate(true).instantiate();
+	
+	#newChild.scale = self.scale;
+	# newChild.start_point_offset *= self.scale;
+	add_child(newChild);
 
 func _process(_delta: float) -> void:
+	if i_am_dead:
+		return;
+	
 	var now = Time.get_ticks_msec() / 1000.0;
 	var diff = now - startTime;
 	if diff > triggerDuration_s:
+		emitLightning();
 		currentEmitCount -= 1;
 		if currentEmitCount > 0:
 			startTime = now;
 			counterLabel.text = str(currentEmitCount);
 		else:
-			queue_free();
-	
+			self_delete_timer.start(0.5);
+			i_am_dead = true;
+			return;
 	var newSize = lerpf(0.0, 1.0, (diff / triggerDuration_s))
 	
 	countDownLabel.text = str(triggerDuration_s - diff).pad_decimals(2);

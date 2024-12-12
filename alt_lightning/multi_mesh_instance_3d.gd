@@ -32,7 +32,7 @@ func append_quad(arr: Array, p1: Vector3, direction: Vector3) -> void:
 		tr = offsetVector(p1);
 	else:
 		tl = arr[-3];
-		tr = arr[-2];
+		tr = arr[-1];
 	
 	
 	var bl = p1 + direction * self.segment_length;
@@ -43,8 +43,8 @@ func append_quad(arr: Array, p1: Vector3, direction: Vector3) -> void:
 	arr.append(bl);
 	
 	arr.append(bl);
-	arr.append(br);
 	arr.append(tr);
+	arr.append(br);
 	
 
 func jitter_point(point: Vector3) ->Vector3:
@@ -54,6 +54,7 @@ func jitter_point(point: Vector3) ->Vector3:
 func generate_main_bolt() -> void:
 	var branches = []
 	append_quad(main_bolt, start_point_offset, main_bolt_direction);
+	
 	for i in range(n_segments + 1):				
 		var point = start_point_offset + main_bolt_direction * segment_length * i
 					
@@ -73,7 +74,7 @@ func generate_branch(branch_point: Vector3, depth = self.max_branch_depth) -> vo
 	
 	append_quad(branch, branch_point, branch_dir);
 	
-	for i in range(4):
+	for i in range(3):
 		var next_point = branch_point + branch_dir * segment_length;
 		next_point = jitter_point(next_point);
 	
@@ -109,7 +110,9 @@ func _ready():
 	create_mesh()
 	var lightning_material = ShaderMaterial.new()
 	lightning_material.shader = load("res://alt_lightning/alt-lightning.gdshader")
-	$".".material_override = lightning_material
+	#walightning_material.shader = load("res://alt_lightning/hashlightning.gdshader")
+	
+	self.material_override = lightning_material
 	
 	self_remove_timer.autostart = true;
 	self_remove_timer.wait_time = 0.5;

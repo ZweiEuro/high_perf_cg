@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dxs7cwpwtxhba" path="res://gameObjects/objects/Flat.tscn" id="3_xs5ph"]
 [ext_resource type="Script" path="res://gameObjects/lightning/indicator_spawner.gd" id="4_51kfs"]
 [ext_resource type="PackedScene" uid="uid://6txft10b4if1" path="res://gameObjects/lightning/lightning/lightning.tscn" id="5_atnxh"]
-[ext_resource type="PackedScene" uid="uid://bvuo37cr1wwmp" path="res://alt_lightning/alt_lightning.tscn" id="6_nwlrt"]
+[ext_resource type="PackedScene" uid="uid://bvuo37cr1wwmp" path="res://computeLightning/lightning.tscn" id="6_nwlrt"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_lt0sx"]
 size = Vector3(10, 10, 10)

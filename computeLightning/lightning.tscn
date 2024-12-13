@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvuo37cr1wwmp"]
+
+[ext_resource type="Script" path="res://computeLightning/lightning_root.gd" id="1_3gnso"]
+[ext_resource type="Script" path="res://alt_lightning/multi_mesh_instance_3d.gd" id="1_7cfiw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_54nu6"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_62ihd"]
+material = SubResource("ShaderMaterial_54nu6")
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_3gnso")
+
+[node name="alt-lightning" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_62ihd")
+script = ExtResource("1_7cfiw")
+start_point_offset = Vector3(0, 10, 0)
+n_segments = 30
+jaggedness = 0.8
+branch_chance = 0.8
+max_branch_depth = 8

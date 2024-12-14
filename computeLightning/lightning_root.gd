@@ -1,9 +1,9 @@
-extends MeshInstance3D
+extends Node3D
 
 var fork_chance: float = 0.2;
 var length_ratio_each_fork: float = 0.2;
 
-var branch_workers = 4	;
+var branch_workers = 1;
 
 # Create a local rendering device.
 var rd := RenderingServer.create_local_rendering_device()
@@ -65,8 +65,7 @@ func create_output_uniform() -> RDUniform:
 	
 	var buffer:= PackedFloat32Array()
 	buffer.resize((branch_workers + 1) * (self.main_bolt.vertex_count_per_branch) * 3); # this needs ALL data in a block, needs * branch count
-	print(buffer.size())
-	buffer.fill(0);
+	buffer.fill(-100);
 			
 	var buffer_bytes := buffer.to_byte_array()
 	# Create a storage buffer that can hold our float values.
@@ -85,7 +84,7 @@ func _ready() -> void:
 	self.main_bolt.length = 10;
 	self.main_bolt.origin = Vector3(0, 5, 0);
 	self.main_bolt.seed = 10; #Time.get_ticks_msec() % 1000;
-	self.main_bolt.vertex_count_per_branch = 11; # include origin
+	self.main_bolt.vertex_count_per_branch = 12; # include origin and stop vertex
 	
 	# Create a uniform to assign the buffer to the rendering device
 	var bolt_uniform = create_lightning_uniform();
@@ -116,37 +115,72 @@ func _ready() -> void:
 	
 	# print in 100 section steps (per workgroup)
 	
+	var c = 0
+	
 	for i in range(0, output.size(), 3):
-		print(output[i], " ", output[i + 1], " ", output[i + 2])
+		print(c," : ", output[i], " ", output[i + 1], " ", output[i + 2])
+		c+=1;
 	compute_output = output
 	create_mesh()
 
-func create_mesh():
+
+func addLineMesh(startVertex: int) -> int:
 	var mesh = ImmediateMesh.new()
+		
+	var lastVertex = startVertex;
 		
 	mesh.surface_begin(Mesh.PRIMITIVE_LINE_STRIP)
 	
+	print("START ", startVertex)
+	var startIndex = startVertex *3;
 
-	for point_index in range(0, (self.main_bolt.length + 1)*3, 3):
-		mesh.surface_add_vertex(
-			Vector3(
+	for point_index in range(startIndex, startIndex + (self.main_bolt.length + 1) * 3, 3):
+		
+		if point_index >= compute_output.size():
+			print("EOF")
+			break;
+		
+		var vert = Vector3(
 				compute_output[point_index + 0],
 				compute_output[point_index + 1],
 				compute_output[point_index + 2]
-			)
-		);
+			);
+			
+		print(vert)
+		if vert == Vector3(-100, -100, -100):
+			break;		
+		lastVertex += 1;
+		mesh.surface_add_vertex(vert);
 	mesh.surface_end()
-	
-	self.mesh = mesh
 	var lightning_material = ShaderMaterial.new()
 	lightning_material.shader = load("res://alt_lightning/alt-lightning.gdshader")
 	#walightning_material.shader = load("res://alt_lightning/hashlightning.gdshader")
 	
-	self.material_override = lightning_material
+	var meshInstance = MeshInstance3D.new();
+	meshInstance.mesh =  mesh
+	meshInstance.material_override = lightning_material
 	
+	var mat = StandardMaterial3D.new();
+	mat.albedo_color = Color(randf(), randf(), randf());
+	meshInstance.material_override = mat
+	add_child(meshInstance)
+	
+	return lastVertex
+
+func create_mesh():
+	var v = 0;
+	
+	for worker in range(0, branch_workers + 2):
+		v = addLineMesh(v)
+		v+=1;
+		pass
+		
 	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
+	
+	
 	pass

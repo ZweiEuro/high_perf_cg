@@ -3,7 +3,7 @@
 
 #include "random.glsl"
 
-layout (local_size_x = 5, local_size_y = 1, local_size_z = 1) in;
+layout (local_size_x = 2, local_size_y = 1, local_size_z = 1) in;
 
 int worker_id = 0;
 
@@ -48,6 +48,15 @@ bool write_vec3_to_output(vec3 v) {
     return true;
 }
 
+void write_vec3_to_output_offset(vec3 v, int offset) {
+    int worker_start_index = (worker_id) * int(root_bolt.vertex_count_per_branch) * 3;
+
+    output_data.data[worker_start_index + index + offset*3 ]     = v.x;
+    output_data.data[worker_start_index + index + offset*3  + 1] = v.y;
+    output_data.data[worker_start_index + index + offset*3  + 2] = v.z;
+
+} 
+
 
 // add jittering later on
 vec3 jitter(vec3 v) {
@@ -82,7 +91,7 @@ vec3 getDirection(vec3 origin) {
     if(origin == root_bolt.origin){
         return normalize(vec3(0, -1, 0));
     }
-    return normalize(vec3(1, -1, 0));
+    return normalize(vec3(1, -1, 0) - origin);
 }
 
 int getBranchPointIndex(int depth) {
@@ -91,7 +100,7 @@ int getBranchPointIndex(int depth) {
 
 
 int getVerticeCountInBranch(int depth) {
-    return int(root_bolt.vertex_count_per_branch * pow(0.5, depth));
+    return int((root_bolt.vertex_count_per_branch -1) * pow(0.5, depth));
 }
 
 float getSegmentLength(int depth) {
@@ -120,15 +129,21 @@ vec3 get_nth_point_of_bolt(vec3 origin, int depth, int n) {
     return current_pos;
 }
 
-void create_branch(vec3 origin, int depth){
+bool create_branch(vec3 origin, int depth){
 
     for(int i = 0 ; i <= getVerticeCountInBranch(depth); i++){
         vec3 v = get_nth_point_of_bolt(origin, depth, i);
         if(write_vec3_to_output(v) == false){
-            return;
+            break;
         }
-    }   
-    return;
+    }
+
+    if(write_vec3_to_output(vec3(-100)) == false){
+        write_vec3_to_output_offset(vec3(-100), -1);
+        return false;
+    }
+
+    return true;
 }
 
 int get_nth_branch_point_index_for_worker(int depth, int n){
@@ -166,12 +181,14 @@ void main() {
     // if i am not the main work group, i make a branch
 
     for(int i = 0; ;i++){
-        int branch_index = get_nth_branch_point_index_for_worker(1, i);
+        int branch_index = get_nth_branch_point_index_for_worker(0, i);
         if(branch_index == -1){
             return;
         }
 
-        create_branch(get_nth_point_of_bolt(root_bolt.origin, 1, branch_index), 1);    
+        if( create_branch(get_nth_point_of_bolt(root_bolt.origin, 0, branch_index), 1) == false) {
+            return;
+        }
     }
 
     return;

@@ -3,7 +3,7 @@ extends Node3D
 var fork_chance: float = 0.2;
 var length_ratio_each_fork: float = 0.2;
 
-
+var branch_workers = 2;
 
 # Create a local rendering device.
 var rd := RenderingServer.create_local_rendering_device()
@@ -18,8 +18,12 @@ class lightning:
 	var origin: Vector3
 	var direction: Vector3
 	var length: float
-	var segment_count: float;
 	var seed: float
+	var vertex_count_per_branch: float
+	
+	func print():
+		print("o: ", origin, " d: ", direction, " len: ", length, " seed: ", seed, " vertex_count_per_branch:", vertex_count_per_branch)
+	
 	
 @onready var main_bolt: lightning = lightning.new();
 
@@ -37,8 +41,9 @@ func create_lightning_uniform() -> RDUniform:
 			main_bolt.origin.x, main_bolt.origin.y, main_bolt.origin.z,
 			main_bolt.direction.x, main_bolt.direction.y, main_bolt.direction.z,
 			main_bolt.length,
-			main_bolt.segment_count,
-			main_bolt.seed])
+			main_bolt.seed,
+			main_bolt.vertex_count_per_branch
+			])
 			
 	var buffer_bytes := buffer.to_byte_array()
 	# Create a storage buffer that can hold our float values.
@@ -53,11 +58,12 @@ func create_lightning_uniform() -> RDUniform:
 	return uniform;
 	
 			
-func create_output_uniform(branch_vertex_count: float = 1000) -> RDUniform:
+func create_output_uniform() -> RDUniform:
 	var uniform := RDUniform.new()
 	
 	var buffer:= PackedFloat32Array()
-	buffer.resize(branch_vertex_count * 3); # this needs ALL data in a block, needs * branch count
+	buffer.resize(branch_workers * self.main_bolt.vertex_count_per_branch * 3); # this needs ALL data in a block, needs * branch count
+	print(buffer.size())
 	buffer.fill(0);
 			
 	var buffer_bytes := buffer.to_byte_array()
@@ -76,8 +82,8 @@ func _ready() -> void:
 	self.main_bolt.direction = Vector3(0,-1,0);
 	self.main_bolt.length = 10;
 	self.main_bolt.origin = Vector3(0, 5, 0);
-	self.main_bolt.segment_count = 2;
 	self.main_bolt.seed = Time.get_ticks_msec() % 1000;
+	self.main_bolt.vertex_count_per_branch = 5;
 	
 	# Create a uniform to assign the buffer to the rendering device
 	var bolt_uniform = create_lightning_uniform();
@@ -93,7 +99,7 @@ func _ready() -> void:
 	var compute_list := rd.compute_list_begin()
 	rd.compute_list_bind_compute_pipeline(compute_list, pipeline)
 	rd.compute_list_bind_uniform_set(compute_list, uniform_set, 0)
-	rd.compute_list_dispatch(compute_list, 1, 1, 1)
+	rd.compute_list_dispatch(compute_list, branch_workers, 1, 1)
 	rd.compute_list_end()
 	
 	# Submit to GPU and wait for sync
@@ -103,8 +109,18 @@ func _ready() -> void:
 	# Read back the data from the buffer
 	var output_bytes := rd.buffer_get_data(output_array_rid)
 	var output := output_bytes.to_float32_array()
-	print("Input: ", main_bolt)
-	print("Output: ", output)
+	main_bolt.print();
+	
+	
+	# print in 100 section steps (per workgroup)
+	
+	for i in range(0, output.size(), 3):
+		print(output[i], " ", output[i + 1], " ", output[i + 2])
+	
+
+	
+	
+	
 
 
 

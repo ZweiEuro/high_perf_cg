@@ -1,9 +1,9 @@
-extends Node3D
+extends MeshInstance3D
 
 var fork_chance: float = 0.2;
 var length_ratio_each_fork: float = 0.2;
 
-var branch_workers = 2;
+var branch_workers = 4	;
 
 # Create a local rendering device.
 var rd := RenderingServer.create_local_rendering_device()
@@ -12,6 +12,8 @@ var rd := RenderingServer.create_local_rendering_device()
 var shader_file := load("res://computeLightning/compute_lighting.glsl")
 var shader_spirv: RDShaderSPIRV = shader_file.get_spirv()
 var shader := rd.shader_create_from_spirv(shader_spirv)
+
+var compute_output: PackedFloat32Array;
 
 
 class lightning:
@@ -62,7 +64,7 @@ func create_output_uniform() -> RDUniform:
 	var uniform := RDUniform.new()
 	
 	var buffer:= PackedFloat32Array()
-	buffer.resize(branch_workers * self.main_bolt.vertex_count_per_branch * 3); # this needs ALL data in a block, needs * branch count
+	buffer.resize((branch_workers + 1) * (self.main_bolt.vertex_count_per_branch) * 3); # this needs ALL data in a block, needs * branch count
 	print(buffer.size())
 	buffer.fill(0);
 			
@@ -82,8 +84,8 @@ func _ready() -> void:
 	self.main_bolt.direction = Vector3(0,-1,0);
 	self.main_bolt.length = 10;
 	self.main_bolt.origin = Vector3(0, 5, 0);
-	self.main_bolt.seed = Time.get_ticks_msec() % 1000;
-	self.main_bolt.vertex_count_per_branch = 5;
+	self.main_bolt.seed = 10; #Time.get_ticks_msec() % 1000;
+	self.main_bolt.vertex_count_per_branch = 11; # include origin
 	
 	# Create a uniform to assign the buffer to the rendering device
 	var bolt_uniform = create_lightning_uniform();
@@ -99,7 +101,7 @@ func _ready() -> void:
 	var compute_list := rd.compute_list_begin()
 	rd.compute_list_bind_compute_pipeline(compute_list, pipeline)
 	rd.compute_list_bind_uniform_set(compute_list, uniform_set, 0)
-	rd.compute_list_dispatch(compute_list, branch_workers, 1, 1)
+	rd.compute_list_dispatch(compute_list, branch_workers + 1, 1, 1)
 	rd.compute_list_end()
 	
 	# Submit to GPU and wait for sync
@@ -116,12 +118,33 @@ func _ready() -> void:
 	
 	for i in range(0, output.size(), 3):
 		print(output[i], " ", output[i + 1], " ", output[i + 2])
+	compute_output = output
+	create_mesh()
+
+func create_mesh():
+	var mesh = ImmediateMesh.new()
+		
+	mesh.surface_begin(Mesh.PRIMITIVE_LINE_STRIP)
 	
 
+	for point_index in range(0, (self.main_bolt.length + 1)*3, 3):
+		mesh.surface_add_vertex(
+			Vector3(
+				compute_output[point_index + 0],
+				compute_output[point_index + 1],
+				compute_output[point_index + 2]
+			)
+		);
+	mesh.surface_end()
+	
+	self.mesh = mesh
+	var lightning_material = ShaderMaterial.new()
+	lightning_material.shader = load("res://alt_lightning/alt-lightning.gdshader")
+	#walightning_material.shader = load("res://alt_lightning/hashlightning.gdshader")
+	
+	self.material_override = lightning_material
 	
 	
-	
-
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

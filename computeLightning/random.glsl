@@ -103,6 +103,11 @@ void setState(in float newSeed)
   last_value = floatBitsToUint(newSeed);
 }
 
+uint getState()
+{
+  return last_value;
+}
+
 
 //-----------------------------------------------------------------------
 // Generate a random float in [0, 1) given the previous RNG state
@@ -116,6 +121,11 @@ float rand()
 vec2 rand2()
 {
   return vec2(rand(), rand());
+}
+
+vec3 rand3()
+{
+  return vec3(rand(), rand(), rand());
 }
 
 #endif  // RANDOM_GLSL

@@ -18,6 +18,7 @@ extends MeshInstance3D
 @onready var self_remove_timer: Timer = Timer.new();
 
 @onready var main_bolt = Array()
+@onready var bolt_uvs = Array();
 
 func offsetVector(vec: Vector3) -> Vector3:
 	return vec + Vector3(1.0, 0, 0) * thickness
@@ -39,12 +40,19 @@ func append_quad(arr: Array, p1: Vector3, direction: Vector3) -> void:
 	var br = offsetVector(bl);
 	
 	arr.append(tl);
+	bolt_uvs.append(Vector2(-1, 1));
 	arr.append(tr);
+	bolt_uvs.append(Vector2(1, 1));
 	arr.append(bl);
+	bolt_uvs.append(Vector2(-1, -1));
 	
 	arr.append(bl);
+	bolt_uvs.append(Vector2(-1, -1));
 	arr.append(tr);
+	bolt_uvs.append(Vector2(1, 1));
 	arr.append(br);
+	bolt_uvs.append(Vector2(1, -1));
+	
 	
 
 func jitter_point(point: Vector3) ->Vector3:
@@ -100,8 +108,12 @@ func create_mesh():
 	
 	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
 
-	for point in main_bolt:
-		mesh.surface_add_vertex(point)
+	for point_i in range(0, main_bolt.size()):
+		var pos = main_bolt[point_i];
+		var uv = bolt_uvs[point_i];
+	
+		mesh.surface_set_uv(uv);
+		mesh.surface_add_vertex(pos)
 	mesh.surface_end()
 	
 	self.mesh = mesh
@@ -120,7 +132,7 @@ func _ready():
 	
 	
 	#add_child(self_remove_timer);
-	
+
 
 	
 

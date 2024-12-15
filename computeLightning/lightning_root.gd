@@ -63,8 +63,9 @@ func create_lightning_uniform() -> RDUniform:
 func create_output_uniform() -> RDUniform:
 	var uniform := RDUniform.new()
 	
+	var spare_space = 100;
 	var buffer:= PackedFloat32Array()
-	buffer.resize((branch_workers + 1) * (self.main_bolt.vertex_count_per_branch) * 3); # this needs ALL data in a block, needs * branch count
+	buffer.resize((branch_workers + 1) * (self.main_bolt.vertex_count_per_branch + spare_space ) * 3); # this needs ALL data in a block, needs * branch count
 	buffer.fill(-100);
 			
 	var buffer_bytes := buffer.to_byte_array()
@@ -170,7 +171,7 @@ func addLineMesh(startVertex: int) -> int:
 func create_mesh():
 	var v = 0;
 	
-	for worker in range(0, branch_workers + 2):
+	for worker in range(0, int(self.main_bolt.vertex_count_per_branch * 0.5)):
 		v = addLineMesh(v)
 		v+=1;
 		pass

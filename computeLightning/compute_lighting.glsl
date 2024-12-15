@@ -91,7 +91,7 @@ vec3 getDirection(vec3 origin) {
     if(origin == root_bolt.origin){
         return normalize(vec3(0, -1, 0));
     }
-    return normalize(vec3(1, -1, 0) - origin);
+    return normalize(vec3(1,0,  0));
 }
 
 int getBranchPointIndex(int depth) {
@@ -106,7 +106,7 @@ int getVerticeCountInBranch(int depth) {
 float getSegmentLength(int depth) {
     // loose 20% of length per depth
     // remove the origin vertex from the count
-    return (root_bolt.len * pow(0.2, depth)) / ((getVerticeCountInBranch(depth) -1) * pow(0.5, depth)); 
+    return (root_bolt.len * pow(0.8, depth)) / ((getVerticeCountInBranch(depth) -1) * pow(0.5, depth)); 
 }
 
 vec3 get_nth_point_of_bolt(vec3 origin, int depth, int n) {

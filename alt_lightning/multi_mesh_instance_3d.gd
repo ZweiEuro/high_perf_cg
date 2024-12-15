@@ -126,6 +126,7 @@ func _ready():
 	
 	self.material_override = lightning_material
 	
+	
 	self_remove_timer.autostart = true;
 	self_remove_timer.wait_time = 0.5;
 	self_remove_timer.timeout.connect(delete_self);

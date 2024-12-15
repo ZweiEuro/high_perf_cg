@@ -1,63 +1,48 @@
 shader_type spatial;
-render_mode cull_disabled,blend_add,unshaded;
-
+render_mode cull_disabled,blend_add;
 
 uniform vec3 color_blue : source_color =  vec3(0.2, 0.3, 0.8);
 
-uniform vec3 color_white : source_color = vec3(1.0, 1.0, 1.0);
-uniform float flicker_speed = 10.0;
-uniform float blue_bias = 4.0; //higher = more blue vs white
+uniform float flicker_speed = 2.0;
+uniform float emission_energy : hint_range(1.0, 100.0, 0.01);
 
-uniform sampler3D noise_texture;
-
-varying flat vec3 my_color;
+uniform float total_model_height: hint_range(1, 100);
 
 float random (vec2 uv) {
     return fract(sin(dot(uv.xy,
         vec2(12.9898,78.233))) * 43758.5453123);
 }
 
-
-
-void vertex(){
-	
+float easeInExpo(float x) {
+	if(x == 0.0){
+		return 0.0;
+	}else{
+		return pow(2, 10.0 * x -10.0);
+	}
 }
 
-void fragment() {
 
-	ALBEDO = my_color;
-	ALPHA = 1.0;
-	vec3 model_space_position = (inverse(MODEL_MATRIX) * inverse(VIEW_MATRIX) * vec4(VERTEX, 1.0)).xyz;
+void fragment() {
 	
-	ALBEDO = (UV.xxy + 1.0) / 2.0;
+	vec3 model_pos = (inverse(MODEL_MATRIX) * inverse(VIEW_MATRIX) * vec4(VERTEX, 1.0)).xyz;
 
 	// Alpha fade for glows
 	float side_alpha = 1.0 - smoothstep(0.5, 1.0, abs(UV.x));
 
-
-	//float flicker = (sin(TIME * flicker_speed) + 1.0) / 2.0; // [0-1]
-    //flicker = pow(flicker, blue_bias);
-
-	vec3 color = color_blue;
-	if(UV.x>0.4){
-		color = color_white;
-	}
-	if(UV.x<-0.4){
-		color = vec3(1.0,0.0,0.0);
-	}
+	float color_thirds = smoothstep(-0.4, -0.2, UV.x) * (1.0 - smoothstep(0.2, 0.4, UV.x));
 	
-	ALBEDO = color;
+	float scale = -1.0;
 	
-	// mix(color_blue, color_white, color_thirds);
-/*
-	vec3 noise = texture(noise_texture, world_pos * 0.5 + vec3(0.0, TIME * 0.2, 0.0)).rgb;
-    // never have 0 brigthness -> otherwise random black flash
-   float brightness = 1.0;//clamp(flicker, 0.2, 1.0);
+	float cutoff_point = 1.0;
+	scale = easeInExpo(cutoff_point - abs(UV.x));
+	
+	vec3 color = mix(color_blue, vec3(1.0),  scale);
+	
+	float offset = 0.0; // model_pos.y / total_model_height;
+	
+	float flicker = ((sin(TIME * flicker_speed + offset) + 1.0) / 2.0) + 0.1; // [0-1]
 
-	float alpha = side_alpha ;//* flicker;
-
-	ALBEDO = color * brightness * noise.r; // Use red channel of noise
-	EMISSION = color * brightness * noise.r * 2.0; // Glow effect
-	ALPHA = alpha; //* noise.r; // Combine alpha with noise
-*/
+	ALBEDO = color; // Use red channel of noise
+	ALPHA = side_alpha * flicker; 
+	// EMISSION = color_blue * emission_energy;
 }

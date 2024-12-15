@@ -6,12 +6,13 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_54nu6"]
 render_priority = 0
 shader = ExtResource("1_kvhaj")
-shader_parameter/color_blue = Color(0.2, 0.3, 0.8, 1)
-shader_parameter/color_white = Color(1, 1, 1, 1)
+shader_parameter/color_blue = Color(0.0780231, 0.129608, 0.418017, 1)
 shader_parameter/flicker_speed = 10.0
-shader_parameter/blue_bias = 4.0
+shader_parameter/emission_energy = 100.0
+shader_parameter/total_model_height = null
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_62ihd"]
+lightmap_size_hint = Vector2i(12, 12)
 material = SubResource("ShaderMaterial_54nu6")
 
 [node name="alt-lightning" type="MeshInstance3D"]

@@ -1,7 +1,11 @@
 shader_type spatial;
 render_mode cull_disabled,blend_add,unshaded;
 
+<<<<<<< HEAD
 uniform vec3 color_blue : source_color =  vec3(0.2, 0.3, 0.8);
+=======
+uniform vec3 color_blue : source_color = vec3(0.2, 0.3, 1.0);
+>>>>>>> c3b77fd6deed4406bf4ac364a0ae6a586e5fba73
 uniform vec3 color_white : source_color = vec3(1.0, 1.0, 1.0);
 uniform float flicker_speed = 10.0;
 uniform float blue_bias = 4.0; //higher = more blue vs white

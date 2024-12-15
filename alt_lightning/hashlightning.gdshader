@@ -58,14 +58,15 @@ void fragment() {
 		) * uv;
 
     uv += 2.0 * fbm(uv + TIME * speed, octave_count) - 1.0;
-    
+
     float dist = abs(uv.x) / thickness;
     vec3 color = effect_color * mix(0.0, 0.05, hash12(vec2(TIME))) / dist;
     ALBEDO = color;
-	
+
 	ALPHA = mix(0.0, 0.05, hash12(vec2(TIME))) / dist;
 	ALPHA = pow(ALPHA, 4.0);
-	
+
 	ALPHA = 1.0;
 
+	ALBEDO.rgb = vec3(1.0, 0,0);
 }

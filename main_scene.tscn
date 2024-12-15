@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dxs7cwpwtxhba" path="res://gameObjects/objects/Flat.tscn" id="3_xs5ph"]
 [ext_resource type="Script" path="res://gameObjects/lightning/indicator_spawner.gd" id="4_51kfs"]
 [ext_resource type="PackedScene" uid="uid://6txft10b4if1" path="res://gameObjects/lightning/lightning/lightning.tscn" id="5_atnxh"]
-[ext_resource type="PackedScene" uid="uid://bvuo37cr1wwmp" path="res://alt_lightning/alt_lightning.tscn" id="6_nwlrt"]
+[ext_resource type="PackedScene" uid="uid://bvuo37cr1wwmp" path="res://computeLightning/lightning.tscn" id="6_nwlrt"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_lt0sx"]
 size = Vector3(10, 10, 10)
@@ -15,6 +15,7 @@ size = Vector3(10, 10, 10)
 
 [node name="Main Scene" type="Node3D"]
 
+<<<<<<< HEAD
 [node name="alt-lightning4" parent="." instance=ExtResource("6_nwlrt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.72658, 4.15183, 14.9197)
 skeleton = NodePath("../alt-lightning3")
@@ -28,6 +29,10 @@ transform = Transform3D(0.382571, 0, -0.923926, 0, 1, 0, 0.923926, 0, 0.382571, 
 [node name="alt-lightning3" parent="." instance=ExtResource("6_nwlrt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.57708, 1.75802, 9.94644)
 skeleton = NodePath("../alt-lightning2")
+=======
+[node name="lightingComputeMesh" parent="." instance=ExtResource("6_nwlrt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+>>>>>>> c3b77fd6deed4406bf4ac364a0ae6a586e5fba73
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 16.1515, 3.86242, 16.4154)

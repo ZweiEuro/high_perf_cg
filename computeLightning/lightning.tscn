@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvuo37cr1wwmp"]
+
+[ext_resource type="Script" path="res://computeLightning/lightning_root.gd" id="1_3gnso"]
+
+[node name="lightingComputeMesh" type="Node3D"]
+script = ExtResource("1_3gnso")

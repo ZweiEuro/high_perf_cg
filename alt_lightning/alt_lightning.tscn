@@ -1,12 +1,12 @@
 [gd_scene load_steps=5 format=3 uid="uid://bvuo37cr1wwmp"]
 
 [ext_resource type="Script" path="res://alt_lightning/multi_mesh_instance_3d.gd" id="1_7cfiw"]
-[ext_resource type="Shader" path="res://alt_lightning/alt-lightning.gdshader" id="1_8xj2g"]
+[ext_resource type="Shader" path="res://alt_lightning/alt-lightning.gdshader" id="1_kvhaj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_54nu6"]
 render_priority = 0
-shader = ExtResource("1_8xj2g")
-shader_parameter/color_blue = Color(0.2, 0.3, 1, 1)
+shader = ExtResource("1_kvhaj")
+shader_parameter/color_blue = Color(0.2, 0.3, 0.8, 1)
 shader_parameter/color_white = Color(1, 1, 1, 1)
 shader_parameter/flicker_speed = 10.0
 shader_parameter/blue_bias = 4.0

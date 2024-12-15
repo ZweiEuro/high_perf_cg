@@ -15,6 +15,20 @@ size = Vector3(10, 10, 10)
 
 [node name="Main Scene" type="Node3D"]
 
+[node name="alt-lightning4" parent="." instance=ExtResource("6_nwlrt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.72658, 4.15183, 14.9197)
+skeleton = NodePath("../alt-lightning3")
+
+[node name="alt-lightning" parent="." instance=ExtResource("6_nwlrt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.12352, 3.87586, 0.478781)
+
+[node name="alt-lightning2" parent="." instance=ExtResource("6_nwlrt")]
+transform = Transform3D(0.382571, 0, -0.923926, 0, 1, 0, 0.923926, 0, 0.382571, 8.48997, 0.879011, -10.4902)
+
+[node name="alt-lightning3" parent="." instance=ExtResource("6_nwlrt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.57708, 1.75802, 9.94644)
+skeleton = NodePath("../alt-lightning2")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 16.1515, 3.86242, 16.4154)
 shadow_enabled = true
@@ -48,6 +62,3 @@ mesh = SubResource("BoxMesh_lt0sx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BigBox"]
 shape = SubResource("BoxShape3D_v5crj")
-
-[node name="alt-lightning" parent="." instance=ExtResource("6_nwlrt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -8.59614)

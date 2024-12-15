@@ -67,6 +67,5 @@ void fragment() {
 	ALPHA = pow(ALPHA, 4.0);
 	
 	ALPHA = 1.0;
-	
-	ALBEDO.rgb = vec3(1.0, 0,0);
+
 }

@@ -38,11 +38,17 @@ void fragment() {
 	
 	vec3 color = mix(color_blue, vec3(1.0),  scale);
 	
-	float offset = (abs(model_pos.y) / total_model_height);
 	
-	float flicker = ((sin(TIME * flicker_speed + offset) + 1.0) / 2.0) + 0.1; // [0-1]
-
+	float flicker = ((sin(TIME * flicker_speed) + 1.0) / 2.0) + 0.1; // [0-1]
+	
+	float offset = (abs(model_pos.y) / total_model_height);
+	float rolldown = ((sin((TIME + offset) * 10.0) + 1.0) / 2.0) + 0.1; // [0-1]
+	
 	ALBEDO = color; // Use red channel of noise
-	ALPHA = side_alpha * flicker; 
+	float alpha = side_alpha * flicker * rolldown; 
+	ALPHA = clamp(alpha,0.1,1.0);
+	
+	
+	
 	// EMISSION = color_blue * emission_energy;
 }

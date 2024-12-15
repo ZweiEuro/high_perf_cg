@@ -61,7 +61,7 @@ shader_parameter/velocity_pivot = Vector3(0, 0, 0)
 shader_parameter/color_value = Color(1, 1, 1, 1)
 shader_parameter/gravity = Vector3(0, 0, 0)
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_n8obe"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_s3mmr"]
 _surfaces = [{
 "aabb": AABB(0, 0, 0, 1, 1, 1),
 "format": 34359738369,
@@ -83,5 +83,5 @@ visible = false
 amount = 1
 lifetime = 0.9
 process_material = SubResource("ShaderMaterial_hjj20")
-draw_pass_1 = SubResource("ArrayMesh_n8obe")
+draw_pass_1 = SubResource("ArrayMesh_s3mmr")
 script = ExtResource("3_hqmv2")

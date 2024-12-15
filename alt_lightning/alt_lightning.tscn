@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvuo37cr1wwmp"]
+[gd_scene load_steps=8 format=3 uid="uid://bvuo37cr1wwmp"]
 
 [ext_resource type="Script" path="res://alt_lightning/multi_mesh_instance_3d.gd" id="1_7cfiw"]
 [ext_resource type="Shader" path="res://alt_lightning/alt-lightning.gdshader" id="1_kvhaj"]
+[ext_resource type="AudioStream" uid="uid://bhb3wuywftmjv" path="res://sounds/explodemini.wav" id="3_xhs2c"]
+[ext_resource type="AudioStream" uid="uid://comtan1kbbqln" path="res://sounds/mixkit-cut.wav" id="4_h5vlt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_54nu6"]
 render_priority = 0
@@ -15,6 +17,12 @@ shader_parameter/total_model_height = 5.0
 lightmap_size_hint = Vector2i(12, 12)
 material = SubResource("ShaderMaterial_54nu6")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uwfuu"]
+playback_mode = 1
+streams_count = 2
+stream_0/stream = ExtResource("3_xhs2c")
+stream_1/stream = ExtResource("4_h5vlt")
+
 [node name="alt-lightning" type="MeshInstance3D"]
 mesh = SubResource("PlaneMesh_62ihd")
 script = ExtResource("1_7cfiw")
@@ -23,3 +31,6 @@ n_segments = 30
 jaggedness = 0.8
 branch_chance = 0.8
 max_branch_depth = 8
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_uwfuu")

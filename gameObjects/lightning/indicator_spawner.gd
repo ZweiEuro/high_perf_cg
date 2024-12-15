@@ -1,6 +1,6 @@
 extends Node
 
-@export var spawningInterval: float = 0.2; # period in seconds
+@export var spawningInterval: float = 1; # period in seconds
 @export var spawningIntervalRandomNoise: float = 0.0;
 
 @export var spawnRadius: float = 10;

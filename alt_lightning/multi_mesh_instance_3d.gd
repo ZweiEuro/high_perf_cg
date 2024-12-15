@@ -133,7 +133,9 @@ func _ready():
 	self_remove_timer.timeout.connect(delete_self);
 	
 	
-	#add_child(self_remove_timer);
+	
+	# audio
+	$AudioStreamPlayer3D.play()
 
 
 	

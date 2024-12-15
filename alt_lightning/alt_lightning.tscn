@@ -9,7 +9,7 @@ shader = ExtResource("1_kvhaj")
 shader_parameter/color_blue = Color(0.0780231, 0.129608, 0.418017, 1)
 shader_parameter/flicker_speed = 10.0
 shader_parameter/emission_energy = 100.0
-shader_parameter/total_model_height = null
+shader_parameter/total_model_height = 5.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_62ihd"]
 lightmap_size_hint = Vector2i(12, 12)

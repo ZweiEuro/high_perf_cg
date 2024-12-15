@@ -38,7 +38,7 @@ void fragment() {
 	
 	vec3 color = mix(color_blue, vec3(1.0),  scale);
 	
-	float offset = 0.0; // model_pos.y / total_model_height;
+	float offset = (abs(model_pos.y) / total_model_height);
 	
 	float flicker = ((sin(TIME * flicker_speed + offset) + 1.0) / 2.0) + 0.1; // [0-1]
 

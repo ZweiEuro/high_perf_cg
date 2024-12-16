@@ -6,7 +6,7 @@ extends Node
 @export var spawnRadius: float = 10;
 @export var minSpawnRadius: float = 3;
 
-@export var enabled: bool = false;
+@export var enabled: bool = true;
 
 var indicator = preload("res://gameObjects/lightning/indicator.tscn");
 
@@ -62,7 +62,7 @@ func _on_timer_timeout() -> void:
 		newChild.triggerDuration_s = 5;
 		newChild.actualScale = 5;
 	else:
-		newChild.emitCount = randi_range(1, 4);
+		newChild.emitCount = 1;
 	
 	add_child(newChild);
 	restartSpawner();

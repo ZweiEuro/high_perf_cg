@@ -53,8 +53,8 @@ void fragment() {
     // Normalize the direction and use it to transform the UV coordinates
     vec2 norm_direction = normalize(direction);
     uv = mat2(
-		vec2(norm_direction.x, -norm_direction.y),
-		vec2(norm_direction.y, norm_direction.x)
+		vec2(norm_direction.y, -norm_direction.x),
+		vec2(norm_direction.x, norm_direction.y)
 		) * uv;
 
     uv += 2.0 * fbm(uv + TIME * speed, octave_count) - 1.0;
@@ -67,6 +67,4 @@ void fragment() {
 	ALPHA = pow(ALPHA, 4.0);
 
 	ALPHA = 1.0;
-
-	ALBEDO.rgb = vec3(1.0, 0,0);
 }

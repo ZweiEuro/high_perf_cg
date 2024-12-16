@@ -8,6 +8,8 @@ uniform float emission_energy : hint_range(1.0, 100.0, 0.01);
 
 uniform float total_model_height: hint_range(1, 100);
 
+//uniform sampler2D texture_img;
+
 float random (vec2 uv) {
     return fract(sin(dot(uv.xy,
         vec2(12.9898,78.233))) * 43758.5453123);
@@ -20,10 +22,6 @@ float easeInExpo(float x) {
 		return pow(2, 10.0 * x -10.0);
 	}
 }
-
-void vertex() {
-}
-
 
 void fragment() {
 	
@@ -45,11 +43,11 @@ void fragment() {
 	float offset = (abs(model_pos.y) / total_model_height);
 	float rolldown = ((sin((time_offset + offset) * 10.0) + 1.0) / 2.0) + 0.1; // [0-1]
 	
-	ALBEDO = color; // Use red channel of noise
+	ALBEDO = color;// *100.0;//color; // Use red channel of noise
 	float alpha = side_alpha * rolldown; 
 	ALPHA = clamp(alpha, 0.2 ,1.0);
 		
-	EMISSION = color_blue * emission_energy;
+	//EMISSION = color_blue * emission_energy;
 	
-	ALBEDO =  COLOR.xyz;
+	//ALBEDO =  COLOR.xyz;
 }

@@ -1,0 +1,30 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8cfdtqlgn442"]
+
+[ext_resource type="Script" path="res://gameObjects/scorch/scorch.gd" id="1_4k5ge"]
+[ext_resource type="Shader" uid="uid://covd5blfb57ev" path="res://gameObjects/scorch/scorchmark.tres" id="1_yskh3"]
+[ext_resource type="AudioStream" uid="uid://bhb3wuywftmjv" path="res://sounds/explodemini.wav" id="3_flwof"]
+[ext_resource type="AudioStream" uid="uid://comtan1kbbqln" path="res://sounds/mixkit-cut.wav" id="4_myjgu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w7r8y"]
+render_priority = 0
+shader = ExtResource("1_yskh3")
+
+[sub_resource type="QuadMesh" id="QuadMesh_is1yo"]
+material = SubResource("ShaderMaterial_w7r8y")
+orientation = 1
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_vcclp"]
+playback_mode = 1
+streams_count = 2
+stream_0/stream = ExtResource("3_flwof")
+stream_1/stream = ExtResource("4_myjgu")
+
+[node name="Scorch" type="Node3D"]
+script = ExtResource("1_4k5ge")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+mesh = SubResource("QuadMesh_is1yo")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_vcclp")

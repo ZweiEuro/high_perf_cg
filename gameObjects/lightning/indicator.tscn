@@ -15,6 +15,7 @@ script/source = "extends Node3D
 @onready var countDownLabel: Label3D = $CountDownLabel
 
 @onready var lighting_prefab = preload(\"res://alt_lightning/alt_lightning.tscn\");
+@onready var scorch_mark = preload(\"res://gameObjects/scorch/scorch.tscn\");
 
 
 var startTime: float = Time.get_ticks_msec() / 1000.0; # time since start in seconds 
@@ -45,10 +46,22 @@ func delete_self() -> void:
 
 func emitLightning() -> void:
 	var newChild: Node3D = lighting_prefab.duplicate(true).instantiate();
-	
+	var newScorch: Node3D = scorch_mark.duplicate(true).instantiate();
 	#newChild.scale = self.scale;
 	# newChild.start_point_offset *= self.scale;
 	add_child(newChild);
+	
+	
+	newScorch.position = self.position;
+	get_tree().root.add_child(newScorch);
+	
+	$IndicatorInner.free()
+	$IndicatorOuter.free()
+
+	
+
+	
+
 
 func _process(_delta: float) -> void:
 	if i_am_dead:
@@ -113,10 +126,12 @@ skeleton = NodePath("../IndicatorOuter")
 
 [node name="CounterLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 1)
+visible = false
 text = "1"
 font_size = 55
 
 [node name="CountDownLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0)
+visible = false
 text = "0"
 font_size = 55

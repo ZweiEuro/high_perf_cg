@@ -128,6 +128,7 @@ func _ready():
 	lightning_material.shader = load("res://alt_lightning/alt-lightning.gdshader")
 	lightning_material.set_shader_parameter("total_model_height", 5);
 	#lightning_material.shader = load("res://alt_lightning/hashlightning.gdshader")
+
 	
 	self.material_override = lightning_material
 	
@@ -138,8 +139,7 @@ func _ready():
 	
 	
 	
-	# audio
-	#$AudioStreamPlayer3D.play()
+
 
 
 	

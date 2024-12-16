@@ -15,10 +15,12 @@ extends MeshInstance3D
 @onready var rel_start_point : Vector3 = start_point_offset + self.position;
 @onready var rel_end_point : Vector3 = end_point_offset + self.position;
 
-@onready var self_remove_timer: Timer = Timer.new();
-
 @onready var main_bolt = Array()
 @onready var bolt_uvs = Array();
+
+@export var lifetime: float = 0.2;
+
+@onready var start_time = Time.get_ticks_msec()
 
 func offsetVector(vec: Vector3) -> Vector3:
 	return vec + Vector3(1.0, 0, 0) * thickness
@@ -97,7 +99,8 @@ func generate_branches() -> void:
 			generate_branch(main_bolt[i]);
 		
 
-
+func _process(_delta):
+	$OmniLight3D.position = lerp(start_point_offset,Vector3(0.0, 0.1, 0.0),(Time.get_ticks_msec() - start_time)/(lifetime*1000.0))
 
 
 func create_mesh():
@@ -133,9 +136,9 @@ func _ready():
 	self.material_override = lightning_material
 	
 	
-	self_remove_timer.autostart = true;
-	self_remove_timer.wait_time = 0.8;
-	self_remove_timer.timeout.connect(delete_self);
+	$OmniLight3D.position = self.start_point_offset;
+	
+	
 	
 	
 	

@@ -32,9 +32,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.61402, 0, -9.61315)
 
 [node name="alt-lightning" parent="." instance=ExtResource("1_ox5d2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.30701, 0, -4.80657)
+visible = false
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 16.1515, 3.86242, 16.4154)
+light_energy = 0.5
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_65sxl")]
@@ -53,6 +55,7 @@ transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.00597, -0.01577, 0.02614
 
 [node name="IndicatorSpawner" type="Node3D" parent="."]
 script = ExtResource("4_51kfs")
+minSpawnRadius = 0.0
 bigLightningPercentage = 0.0
 
 [node name="BigBox" type="StaticBody3D" parent="."]

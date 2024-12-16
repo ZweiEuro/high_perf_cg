@@ -23,3 +23,8 @@ n_segments = 30
 jaggedness = 0.8
 branch_chance = 0.8
 max_branch_depth = 8
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.137497, 0)
+light_color = Color(0.43173, 0.656135, 0.999999, 1)
+light_energy = 3.0

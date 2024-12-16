@@ -108,11 +108,15 @@ func create_mesh():
 	
 	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
 
+	var randId = Color(randf(),randf(),randf())
+
 	for point_i in range(0, main_bolt.size()):
 		var pos = main_bolt[point_i];
 		var uv = bolt_uvs[point_i];
 	
 		mesh.surface_set_uv(uv);
+		mesh.surface_set_color(randId);
+		
 		mesh.surface_add_vertex(pos)
 	mesh.surface_end()
 	
@@ -129,13 +133,13 @@ func _ready():
 	
 	
 	self_remove_timer.autostart = true;
-	self_remove_timer.wait_time = 0.5;
+	self_remove_timer.wait_time = 0.8;
 	self_remove_timer.timeout.connect(delete_self);
 	
 	
 	
 	# audio
-	$AudioStreamPlayer3D.play()
+	#$AudioStreamPlayer3D.play()
 
 
 	

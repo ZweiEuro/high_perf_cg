@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://fvbbvkl5ed7t"]
+[gd_scene load_steps=8 format=3 uid="uid://fvbbvkl5ed7t"]
 
 [ext_resource type="PackedScene" uid="uid://dutcdtdc0ygky" path="res://gameObjects/player/Player.tscn" id="1_65sxl"]
+[ext_resource type="PackedScene" uid="uid://bvuo37cr1wwmp" path="res://alt_lightning/alt_lightning.tscn" id="1_ox5d2"]
 [ext_resource type="PackedScene" uid="uid://w4utvnmipwxv" path="res://gameObjects/objects/Box.tscn" id="2_8jwoa"]
 [ext_resource type="PackedScene" uid="uid://dxs7cwpwtxhba" path="res://gameObjects/objects/Flat.tscn" id="3_xs5ph"]
 [ext_resource type="Script" path="res://gameObjects/lightning/indicator_spawner.gd" id="4_51kfs"]
@@ -12,6 +13,13 @@ size = Vector3(10, 10, 10)
 size = Vector3(10, 10, 10)
 
 [node name="Main Scene" type="Node3D"]
+
+[node name="alt-lightning2" parent="." instance=ExtResource("1_ox5d2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.61402, 0, -9.61315)
+skeleton = NodePath("../alt-lightning")
+
+[node name="alt-lightning" parent="." instance=ExtResource("1_ox5d2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.30701, 0, -4.80657)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 16.1515, 3.86242, 16.4154)
@@ -33,7 +41,6 @@ transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.00597, -0.01577, 0.02614
 
 [node name="IndicatorSpawner" type="Node3D" parent="."]
 script = ExtResource("4_51kfs")
-enabled = true
 
 [node name="BigBox" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.09, -3.42728, 13.943)

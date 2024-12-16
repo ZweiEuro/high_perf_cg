@@ -89,6 +89,9 @@ height = 0.001
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6v3ml"]
 transparency = 1
 albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 0.87
 disable_receive_shadows = true
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_e1imq"]

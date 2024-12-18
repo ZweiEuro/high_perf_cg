@@ -1,31 +1,51 @@
-[gd_scene load_steps=7 format=3 uid="uid://fvbbvkl5ed7t"]
+[gd_scene load_steps=12 format=3 uid="uid://fvbbvkl5ed7t"]
 
 [ext_resource type="PackedScene" uid="uid://dutcdtdc0ygky" path="res://gameObjects/player/Player.tscn" id="1_65sxl"]
+[ext_resource type="PackedScene" uid="uid://bvuo37cr1wwmp" path="res://computeLightning/lightning.tscn" id="1_ox5d2"]
 [ext_resource type="PackedScene" uid="uid://w4utvnmipwxv" path="res://gameObjects/objects/Box.tscn" id="2_8jwoa"]
 [ext_resource type="PackedScene" uid="uid://dxs7cwpwtxhba" path="res://gameObjects/objects/Flat.tscn" id="3_xs5ph"]
 [ext_resource type="Script" path="res://gameObjects/lightning/indicator_spawner.gd" id="4_51kfs"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_lt0sx"]
-size = Vector3(10, 10, 10)
+[ext_resource type="Shader" path="res://sky.gdshader" id="6_hib21"]
+[ext_resource type="PackedScene" uid="uid://ddi3yvqoludkn" path="res://gameObjects/cloud/cloud.tscn" id="7_rphi1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v5crj"]
 size = Vector3(10, 10, 10)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ewmyk"]
+shader = ExtResource("6_hib21")
+shader_parameter/sky_color = Color(2.88785e-07, 0, 0.233624, 1)
+
+[sub_resource type="Sky" id="Sky_f13co"]
+sky_material = SubResource("ShaderMaterial_ewmyk")
+
+[sub_resource type="Environment" id="Environment_ngl4u"]
+background_mode = 2
+sky = SubResource("Sky_f13co")
+
 [node name="Main Scene" type="Node3D"]
+
+[node name="alt-lightning2" parent="." instance=ExtResource("1_ox5d2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.61402, 0, -9.61315)
+visible = false
+
+[node name="alt-lightning" parent="." instance=ExtResource("1_ox5d2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.30701, 0, -4.80657)
+visible = false
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 16.1515, 3.86242, 16.4154)
+light_energy = 0.5
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_65sxl")]
 
-[node name="Box" parent="." instance=ExtResource("2_8jwoa")]
+[node name="Stairs" parent="." instance=ExtResource("2_8jwoa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.488, 0.5, -5.12)
 
-[node name="Box" parent="Box" instance=ExtResource("2_8jwoa")]
+[node name="Box" parent="Stairs" instance=ExtResource("2_8jwoa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 
-[node name="Box" parent="Box/Box" instance=ExtResource("2_8jwoa")]
+[node name="Box" parent="Stairs/Box" instance=ExtResource("2_8jwoa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 
 [node name="Flat" parent="." instance=ExtResource("3_xs5ph")]
@@ -33,12 +53,18 @@ transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.00597, -0.01577, 0.02614
 
 [node name="IndicatorSpawner" type="Node3D" parent="."]
 script = ExtResource("4_51kfs")
+spawningInterval = 0.5
+minSpawnRadius = 0.0
+bigLightningPercentage = 0.0
 
-[node name="BigBox" type="StaticBody3D" parent="."]
+[node name="platform" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.09, -3.42728, 13.943)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BigBox"]
-mesh = SubResource("BoxMesh_lt0sx")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BigBox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="platform"]
 shape = SubResource("BoxShape3D_v5crj")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ngl4u")
+
+[node name="Cloud" parent="." instance=ExtResource("7_rphi1")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 11, 0)

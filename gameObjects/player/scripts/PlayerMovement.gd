@@ -33,7 +33,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("Exit"):
 		get_tree().quit()
 	if Input.is_action_just_pressed("Reset"):
-		position = Vector3(0, 5, 0)
+		resetPosition()
+		
+func resetPosition():
+	position = Vector3(0, 5, 0)
+	
 	
 
 func _process(delta):

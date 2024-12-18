@@ -1,0 +1,63 @@
+[gd_resource type="VisualShader" load_steps=7 format=3 uid="uid://covd5blfb57ev"]
+
+[ext_resource type="Texture2D" uid="uid://cnlm3juy2hq6" path="res://gameObjects/scorch/a666de896af08b68c52ab1bde4b9158b3a5bebab.jpg" id="1_eln2t"]
+[ext_resource type="Texture2D" uid="uid://ckt1vrrrstfs1" path="res://gameObjects/scorch/PngItem_2084945.png" id="2_8o6b5"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_kn4pc"]
+output_port_for_preview = 0
+expanded_output_ports = [0]
+texture = ExtResource("1_eln2t")
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_anodf"]
+output_port_for_preview = 0
+default_input_values = [0, 1.0, 1, 0.0]
+operator = 1
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_kcekv"]
+constant = Color(0, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_7du3u"]
+expanded_output_ports = [0]
+texture = ExtResource("2_8o6b5")
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded;
+
+uniform sampler2D tex_frg_2;
+
+
+
+void fragment() {
+// ColorConstant:4
+	vec4 n_out4p0 = vec4(0.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Texture2D:2
+	vec4 n_out2p0 = texture(tex_frg_2, UV);
+	float n_out2p2 = n_out2p0.g;
+
+
+// FloatOp:3
+	float n_in3p0 = 1.00000;
+	float n_out3p0 = n_in3p0 - n_out2p2;
+
+
+// Output:0
+	ALBEDO = vec3(n_out4p0.xyz);
+	ALPHA = n_out3p0;
+
+
+}
+"
+flags/unshaded = true
+nodes/fragment/0/position = Vector2(380, 220)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_kn4pc")
+nodes/fragment/2/position = Vector2(-320, 180)
+nodes/fragment/3/node = SubResource("VisualShaderNodeFloatOp_anodf")
+nodes/fragment/3/position = Vector2(60, 280)
+nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_kcekv")
+nodes/fragment/4/position = Vector2(130.899, 110.308)
+nodes/fragment/connections = PackedInt32Array(3, 0, 0, 1, 2, 2, 3, 1, 4, 0, 0, 0)
+nodes/sky/2/node = SubResource("VisualShaderNodeTexture_7du3u")
+nodes/sky/2/position = Vector2(40, 40)

@@ -1,10 +1,12 @@
 extends Node
 
-@export var spawningInterval: float = 0.05; # period in seconds
+@export var spawningInterval: float = 1; # period in seconds
 @export var spawningIntervalRandomNoise: float = 0.0;
 
 @export var spawnRadius: float = 10;
 @export var minSpawnRadius: float = 3;
+
+@export var enabled: bool = true;
 
 var indicator = preload("res://gameObjects/lightning/indicator.tscn");
 
@@ -14,6 +16,9 @@ var indicator = preload("res://gameObjects/lightning/indicator.tscn");
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if !enabled:
+		return;
+	
 	timer.autostart = true;
 	timer.one_shot = true;
 	timer.wait_time = spawningInterval;
@@ -57,7 +62,7 @@ func _on_timer_timeout() -> void:
 		newChild.triggerDuration_s = 5;
 		newChild.actualScale = 5;
 	else:
-		newChild.emitCount = randi_range(1, 4);
+		newChild.emitCount = 1;
 	
 	add_child(newChild);
 	restartSpawner();

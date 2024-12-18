@@ -14,10 +14,17 @@ script/source = "extends Node3D
 @onready var counterLabel: Label3D = $CounterLabel
 @onready var countDownLabel: Label3D = $CountDownLabel
 
+@onready var lighting_prefab = preload(\"res://alt_lightning/alt_lightning.tscn\");
+@onready var scorch_mark = preload(\"res://gameObjects/scorch/scorch.tscn\");
+
 
 var startTime: float = Time.get_ticks_msec() / 1000.0; # time since start in seconds 
 
 var indicatorInnerSize: float = 0.0;
+
+@onready var self_delete_timer: Timer = Timer.new();
+
+@onready var i_am_dead = false;
 
 func _ready() -> void:
 	self.scale = Vector3(actualScale, actualScale, actualScale);
@@ -25,18 +32,64 @@ func _ready() -> void:
 	innerIndicator.bottom_radius = 1;
 	counterLabel.text = str(emitCount);
 	countDownLabel.text = str(triggerDuration_s).pad_decimals(2);
+	
+	self_delete_timer.autostart = false;
+	self_delete_timer.one_shot = true;
+	self_delete_timer.timeout.connect(delete_self);
+
+	add_child(self_delete_timer)
+		
+	
+func delete_self() -> void:
+	queue_free();
+	
+
+func emitLightning() -> void:
+	var newChild: Node3D = lighting_prefab.duplicate(true).instantiate();
+	var newScorch: Node3D = scorch_mark.duplicate(true).instantiate();
+	#newChild.scale = self.scale;
+	# newChild.start_point_offset *= self.scale;
+	add_child(newChild);
+	
+	
+	newScorch.position = self.position;
+	get_tree().root.add_child(newScorch);
+	
+	$IndicatorInner.free()
+	$IndicatorOuter.free()
+	
+	# get distance to player
+	
+	var player = get_tree().get_nodes_in_group(\"player\")[0]
+	
+	var dist = (self.position - player.position). length();
+	
+	if dist <= 1.5:
+		player.resetPosition();
+	
+	
+
+	
+
+	
+
 
 func _process(_delta: float) -> void:
+	if i_am_dead:
+		return;
+	
 	var now = Time.get_ticks_msec() / 1000.0;
 	var diff = now - startTime;
 	if diff > triggerDuration_s:
+		emitLightning();
 		currentEmitCount -= 1;
 		if currentEmitCount > 0:
 			startTime = now;
 			counterLabel.text = str(currentEmitCount);
 		else:
-			queue_free();
-	
+			self_delete_timer.start(0.5);
+			i_am_dead = true;
+			return;
 	var newSize = lerpf(0.0, 1.0, (diff / triggerDuration_s))
 	
 	countDownLabel.text = str(triggerDuration_s - diff).pad_decimals(2);
@@ -60,6 +113,9 @@ height = 0.001
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6v3ml"]
 transparency = 1
 albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 0.87
 disable_receive_shadows = true
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_e1imq"]
@@ -81,10 +137,12 @@ skeleton = NodePath("../IndicatorOuter")
 
 [node name="CounterLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 1)
+visible = false
 text = "1"
 font_size = 55
 
 [node name="CountDownLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0)
+visible = false
 text = "0"
 font_size = 55

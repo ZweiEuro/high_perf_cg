@@ -1,8 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://dxs7cwpwtxhba"]
+[gd_scene load_steps=7 format=3 uid="uid://dxs7cwpwtxhba"]
+
+[ext_resource type="Shader" path="res://gameObjects/objects/ground.gdshader" id="1_ioxw1"]
+[ext_resource type="Texture2D" uid="uid://bvt7wwyc0808p" path="res://gameObjects/objects/coast_sand_05_diff_4k.jpg" id="2_0hkuq"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n3bpb"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_afe46"]
+render_priority = 0
+shader = ExtResource("1_ioxw1")
+shader_parameter/diffuse = ExtResource("2_0hkuq")
+
 [sub_resource type="QuadMesh" id="QuadMesh_cc6qa"]
+material = SubResource("ShaderMaterial_afe46")
+orientation = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_blfw4"]
 size = Vector3(1, 0, 1)
@@ -12,7 +22,6 @@ transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_n3bpb")
 
 [node name="FloorMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("QuadMesh_cc6qa")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

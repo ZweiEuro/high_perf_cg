@@ -27,12 +27,12 @@ height = 0.2
 [node name="Player" type="Node3D"]
 script = ExtResource("1_8atvp")
 
-[node name="PlayerBody" type="CharacterBody3D" parent="."]
+[node name="PlayerBody" type="CharacterBody3D" parent="." groups=["player"]]
 top_level = true
 script = ExtResource("2_w2um5")
 
 [node name="Box" parent="PlayerBody" instance=ExtResource("4_0gr36")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20839, -0.56734)
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 0.2, 0, 1.341, -0.406081)
 collision_layer = 0
 collision_mask = 0
 
@@ -47,10 +47,7 @@ mesh = SubResource("CapsuleMesh_djl6f")
 [node name="DustParticleSpawner" type="CPUParticles3D" parent="PlayerBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.167882, 0.540837)
 emitting = false
-amount = 15
-lifetime = 0.3
 one_shot = true
-explosiveness = 1.0
 lifetime_randomness = 1.0
 mesh = SubResource("SphereMesh_1b3m4")
 direction = Vector3(0, 0, 1)

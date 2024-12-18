@@ -41,13 +41,13 @@ shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_65sxl")]
 
-[node name="Box" parent="." instance=ExtResource("2_8jwoa")]
+[node name="Stairs" parent="." instance=ExtResource("2_8jwoa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.488, 0.5, -5.12)
 
-[node name="Box" parent="Box" instance=ExtResource("2_8jwoa")]
+[node name="Box" parent="Stairs" instance=ExtResource("2_8jwoa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 
-[node name="Box" parent="Box/Box" instance=ExtResource("2_8jwoa")]
+[node name="Box" parent="Stairs/Box" instance=ExtResource("2_8jwoa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 
 [node name="Flat" parent="." instance=ExtResource("3_xs5ph")]
@@ -55,20 +55,21 @@ transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.00597, -0.01577, 0.02614
 
 [node name="IndicatorSpawner" type="Node3D" parent="."]
 script = ExtResource("4_51kfs")
+spawningInterval = 0.5
 minSpawnRadius = 0.0
 bigLightningPercentage = 0.0
 
-[node name="BigBox" type="StaticBody3D" parent="."]
+[node name="platform" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.09, -3.42728, 13.943)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BigBox"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="platform"]
 mesh = SubResource("BoxMesh_lt0sx")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BigBox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="platform"]
 shape = SubResource("BoxShape3D_v5crj")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ngl4u")
 
 [node name="Cloud" parent="." instance=ExtResource("7_rphi1")]
-transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 10, 0)
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 11, 0)

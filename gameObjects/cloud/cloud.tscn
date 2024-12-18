@@ -26,7 +26,7 @@ size = Vector2(10, 10)
 [node name="Cloud" type="Node3D"]
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-amount = 50
+amount = 1000
 lifetime = 600.0
 preprocess = 2.0
 explosiveness = 0.98

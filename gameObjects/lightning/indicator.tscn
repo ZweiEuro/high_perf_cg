@@ -57,6 +57,17 @@ func emitLightning() -> void:
 	
 	$IndicatorInner.free()
 	$IndicatorOuter.free()
+	
+	# get distance to player
+	
+	var player = get_tree().get_nodes_in_group(\"player\")[0]
+	
+	var dist = (self.position - player.position). length();
+	
+	if dist <= 1.5:
+		player.resetPosition();
+	
+	
 
 	
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://fvbbvkl5ed7t"]
+[gd_scene load_steps=12 format=3 uid="uid://fvbbvkl5ed7t"]
 
 [ext_resource type="PackedScene" uid="uid://dutcdtdc0ygky" path="res://gameObjects/player/Player.tscn" id="1_65sxl"]
 [ext_resource type="PackedScene" uid="uid://bvuo37cr1wwmp" path="res://computeLightning/lightning.tscn" id="1_ox5d2"]
@@ -7,9 +7,6 @@
 [ext_resource type="Script" path="res://gameObjects/lightning/indicator_spawner.gd" id="4_51kfs"]
 [ext_resource type="Shader" path="res://sky.gdshader" id="6_hib21"]
 [ext_resource type="PackedScene" uid="uid://ddi3yvqoludkn" path="res://gameObjects/cloud/cloud.tscn" id="7_rphi1"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_lt0sx"]
-size = Vector3(10, 10, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v5crj"]
 size = Vector3(10, 10, 10)
@@ -29,6 +26,7 @@ sky = SubResource("Sky_f13co")
 
 [node name="alt-lightning2" parent="." instance=ExtResource("1_ox5d2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.61402, 0, -9.61315)
+visible = false
 
 [node name="alt-lightning" parent="." instance=ExtResource("1_ox5d2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.30701, 0, -4.80657)
@@ -61,9 +59,6 @@ bigLightningPercentage = 0.0
 
 [node name="platform" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.09, -3.42728, 13.943)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="platform"]
-mesh = SubResource("BoxMesh_lt0sx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="platform"]
 shape = SubResource("BoxShape3D_v5crj")

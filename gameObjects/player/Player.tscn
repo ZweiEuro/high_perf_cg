@@ -27,7 +27,7 @@ height = 0.2
 [node name="Player" type="Node3D"]
 script = ExtResource("1_8atvp")
 
-[node name="PlayerBody" type="CharacterBody3D" parent="."]
+[node name="PlayerBody" type="CharacterBody3D" parent="." groups=["player"]]
 top_level = true
 script = ExtResource("2_w2um5")
 
